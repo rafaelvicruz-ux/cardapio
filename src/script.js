@@ -71,20 +71,6 @@ function renderLogin() {
 }
 
 function renderRegister() {
-  document.getElementById('app').innerHTML = `
-    <section class="card auth-card">
-      <h2>Cadastrar Usuário</h2>
-      <div id="message"></div>
-      <form id="register-form">
-        <label>Nome<input type="text" name="name" required></label>
-        <label>e-mail<input type="email" name="email" required></label>
-        <label>Senha <input type="password" name="password" required></label>
-        <button type="submit">Registrar</button>
-      </form>
-      <p>Já tem conta? <button id="link-login" class="link-btn">Entrar</button></p>
-    </section>
-  `;
-
   document.getElementById('link-login').addEventListener('click', renderLogin);
 
   document.getElementById('register-form').addEventListener('submit', async (event) => {
