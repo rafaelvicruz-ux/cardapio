@@ -1,89 +1,82 @@
-body {
-  font-family: Arial, sans-serif;
-  background: #f5f7fa;
-  color: #333;
+/* Reset básico */
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-header {
-  background: #27ae60;
-  color: #fff;
-  padding: 1rem;
-  text-align: center;
-}
-
-main {
-  padding: 1.5rem;
-  display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
-  gap: 1rem;
-}
-
-.card {
-  background: #fff;
-  border-radius: 10px;
-  padding: 1rem;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-}
-
-.auth-card {
-  max-width: 400px;
-  margin: 1rem auto;
-}
-
-form {
-  display: grid;
-  gap: 0.75rem;
-}
-
-label {
+/* Fundo da página */
+body {
+  background: linear-gradient(135deg, #ff7e5f, #feb47b);
+  height: 100vh;
   display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Container principal */
+main, body > h1, #username, #password, #loginButton {
+  display: block;
+}
+
+/* Caixa de login */
+body {
   flex-direction: column;
-  font-weight: 600;
+  text-align: center;
+  color: #fff;
 }
 
-input, select, button {
-  padding: 0.6rem 0.8rem;
+h1 {
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+}
+
+/* Inputs */
+input {
+  width: 250px;
+  padding: 12px;
+  margin: 10px auto;
+  border: none;
+  border-radius: 8px;
+  outline: none;
   font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 7px;
+  transition: 0.3s;
 }
 
+input:focus {
+  box-shadow: 0 0 8px rgba(255,255,255,0.8);
+}
+
+/* Botão */
 button {
-  border: 0;
-  cursor: pointer;
-  background: #27ae60;
-  color: white;
-}
-
-.secondary {
-  background: #888;
-}
-
-.link-btn {
-  border: 0;
-  background: transparent;
-  color: #2a74d5;
-  text-decoration: underline;
-  cursor: pointer;
-  padding: 0;
+  width: 250px;
+  padding: 12px;
+  margin-top: 15px;
+  border: none;
+  border-radius: 8px;
+  background: #fff;
+  color: #ff7e5f;
   font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
-#error, .error, .success {
-  padding: 0.5rem 0.75rem;
-  border-radius: 7px;
-  margin-bottom: 0.75rem;
+button:hover {
+  background: #ff7e5f;
+  color: #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
 }
 
-.error {
-  background: #ffe6e6;
-  color: #b30000;
+/* Área principal do app */
+#app {
+  margin-top: 30px;
+  width: 80%;
+  max-width: 600px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 20px;
+  color: #fff;
 }
-
-.success {
-  background: #e6ffe8;
-  color: #097c2c;
-}
-
