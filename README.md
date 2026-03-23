@@ -27,6 +27,26 @@ Sistema com autenticação, cadastro de usuários, listas de compras semana/mês
 ## SQL de esquema
 - `data/schema.sql` (para migração em SQLite/SQL)
 
+## Supabase (produção no Vercel/GitHub)
+1. Crie um projeto Supabase.
+2. Em `Tables`, crie:
+   - `users`: `id` (int8, primary key), `name` text, `email` text unique, `password` text, `token` text
+   - `groceries`: `id` serial, `user_id` int8 (fk users.id), `item` text, `period` text, `created_at` timestamptz default now()
+   - `mealplans`: `id` serial, `user_id` int8 (fk users.id), `recipe` text, `period` text, `created_at` timestamptz default now()
+3. No Vercel, configure variáveis de ambiente:
+   - `SUPABASE_URL`
+   - `SUPABASE_SERVICE_ROLE_KEY` (ou `SUPABASE_ANON_KEY` para testes)
+
+## Como testar localmente
+1. Instale dependências: `npm install`
+2. `npm run dev`
+3. Acesse `http://localhost:3000`
+
+## Como implantar para Vercel
+1. Conecte repositório no Vercel.
+2. Configure env vars no dashboard (SUPABASE_*).
+3. `vercel --prod`
+
 ## Arquivos
 - `src/index.html`
 - `src/style.css`

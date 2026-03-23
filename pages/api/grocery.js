@@ -1,6 +1,6 @@
 import { findUserByToken, saveGrocery, getGroceries } from './db.js';
 
-function getUser(req, res) {
+async function getUser(req, res) {
   const auth = req.headers.authorization || '';
   const token = auth.replace('Bearer ', '').trim();
 
@@ -9,7 +9,7 @@ function getUser(req, res) {
     return null;
   }
 
-  const user = findUserByToken(token);
+  const user = await findUserByToken(token);
   if (!user) {
     res.status(401).json({ message: 'Token inválido' });
     return null;
@@ -18,13 +18,13 @@ function getUser(req, res) {
   return user;
 }
 
-export default function handler(req, res) {
-  const user = getUser(req, res);
+export default async function handler(req, res) {
+  const user = await getUser(req, res);
   if (!user) return;
 
   if (req.method === 'GET') {
     const period = req.query.period || 'week';
-    const list = getGroceries(user.id, period);
+    const list = await getGroceries(user.id, period);
     res.status(200).json(list);
     return;
   }
@@ -35,7 +35,7 @@ export default function handler(req, res) {
       res.status(400).json({ message: 'Item e período são obrigatórios' });
       return;
     }
-    const saved = saveGrocery(user.id, item, period);
+    const saved = await saveGrocery(user.id, item, period);
     res.status(201).json(saved);
     return;
   }

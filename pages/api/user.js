@@ -1,6 +1,6 @@
 import { findUserByToken } from './db.js';
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method !== 'GET') {
     res.status(405).json({ message: 'Método não permitido' });
     return;
@@ -14,7 +14,7 @@ export default function handler(req, res) {
     return;
   }
 
-  const user = findUserByToken(token);
+  const user = await findUserByToken(token);
   if (!user) {
     res.status(401).json({ message: 'Token inválido' });
     return;

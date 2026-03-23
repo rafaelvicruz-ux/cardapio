@@ -1,6 +1,6 @@
 import { findUserByEmail, insertUser } from './db.js';
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ message: 'Método não permitido' });
     return;
@@ -12,14 +12,14 @@ export default function handler(req, res) {
     return;
   }
 
-  if (findUserByEmail(email)) {
+  if (await findUserByEmail(email)) {
     res.status(400).json({ message: 'E-mail já cadastrado' });
     return;
   }
 
   const token = Math.random().toString(36).substr(2) + Date.now().toString(36);
   const newUser = { id: Date.now(), name, email, password, token };
-  insertUser(newUser);
+  await insertUser(newUser);
 
   res.status(201).json({ message: 'Usuário criado', id: newUser.id });
 }

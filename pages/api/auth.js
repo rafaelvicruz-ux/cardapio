@@ -1,6 +1,6 @@
 import { findUserByEmail } from './db.js';
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ message: 'Método não permitido' });
     return;
@@ -12,7 +12,7 @@ export default function handler(req, res) {
     return;
   }
 
-  const user = findUserByEmail(email);
+  const user = await findUserByEmail(email);
   if (!user || user.password !== password) {
     res.status(401).json({ message: 'Credenciais inválidas' });
     return;
