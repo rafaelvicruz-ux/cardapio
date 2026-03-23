@@ -11,22 +11,14 @@ body {
   background: linear-gradient(135deg, #ff7e5f, #feb47b);
   height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-/* Container principal */
-main, body > h1, #username, #password, #loginButton {
-  display: block;
-}
-
-/* Caixa de login */
-body {
-  flex-direction: column;
   text-align: center;
   color: #fff;
 }
 
+/* Título */
 h1 {
   margin-bottom: 20px;
   font-size: 1.8rem;
@@ -80,8 +72,3 @@ button:hover {
   padding: 20px;
   color: #fff;
 }
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 742570bbb036465b77b94b583e151eac25ec43cf
