@@ -97,8 +97,14 @@ function renderRegister() {
     };
     try {
       await api.post('/api/register', payload);
-      setMessage('Cadastro realizado. Efetue o login.');
-      setTimeout(renderLogin, 1000);
+      // Faz login automático após cadastro e inicia a nova área (dashboard)
+      const loginResult = await api.post('/api/auth', {
+        email: payload.email,
+        password: payload.password
+      });
+      localStorage.setItem('token', loginResult.token);
+      setMessage('Cadastro realizado e login automático. Bem-vindo!');
+      renderDashboard();
     } catch (error) {
       setMessage(error.message || 'Erro no cadastro', true);
     }

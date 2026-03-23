@@ -89,14 +89,16 @@ export default function Home() {
   const handleRegister = async (event) => {
     event.preventDefault();
     const form = new FormData(event.target);
+    const name = form.get('name');
+    const email = form.get('email');
+    const password = form.get('password');
     try {
-      await api.post('/api/register', {
-        name: form.get('name'),
-        email: form.get('email'),
-        password: form.get('password')
-      });
-      setMsg('Cadastro realizado. Faça login.');
-      setPage('login');
+      await api.post('/api/register', { name, email, password });
+      // login automático e nova área
+      const auth = await api.post('/api/auth', { email, password });
+      localStorage.setItem('token', auth.token);
+      setMsg('Cadastro realizado com sucesso. Entrando.');
+      await loadDashboard();
     } catch (error) {
       setMsg(error.message || 'Erro no cadastro', true);
     }
