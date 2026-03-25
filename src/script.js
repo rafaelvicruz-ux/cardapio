@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
   const redirectToIndexBlog = function() {
-    window.location.href = 'indexblog.html';
+    window.location.href = 'index.blog';
   };
 
   const loginButton = document.getElementById('loginButton');
