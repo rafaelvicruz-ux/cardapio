@@ -32,7 +32,6 @@
     input {
       width: 250px;
       padding: 12px;
-      margin: 10px auto;
       border: none;
       border-radius: 8px;
       outline: none;
@@ -47,7 +46,6 @@
     button {
       width: 250px;
       padding: 12px;
-      margin-top: 15px;
       border: none;
       border-radius: 8px;
       background: #fff;
@@ -62,6 +60,17 @@
       background: #4facfe;
       color: #fff;
       box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+
+    #loginArea {
+      margin-top: 30px;
+    }
+
+    .login-container {
+      display: flex;
+      flex-direction: column; /* tudo embaixo */
+      gap: 12px;
+      align-items: center;
     }
 
     #app {
@@ -102,10 +111,12 @@
   <!-- Área de login -->
   <div id="loginArea">
     <h1>Cadastre-se e entre no sistema</h1>
-    <input type="text" id="username" placeholder="Digite seu nome de usuário">
-    <input type="password" id="password" placeholder="Digite sua senha">
-    <button id="loginButton">Entrar</button>
-    <button id="registerButton">Cadastrar</button>
+    <div class="login-container">
+      <input type="text" id="username" placeholder="Digite seu nome de usuário">
+      <input type="password" id="password" placeholder="Digite sua senha">
+      <button id="loginButton">Entrar</button>
+      <button id="registerButton">Cadastrar</button>
+    </div>
   </div>
 
   <main id="app">
