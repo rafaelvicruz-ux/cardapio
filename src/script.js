@@ -1,4 +1,4 @@
-  document.getElementById("loginButton").onclick = function() {
+ document.getElementById("loginButton").onclick = function() {
       // Esconde a área de login
       document.getElementById("loginArea").style.display = "none";
       // Mostra o blog
