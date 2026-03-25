@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
   const redirectToIndexBlog = function() {
-    window.location.href = 'index.blog';
+    // Redireciona para a página correta após login/cadastro
+    window.location.href = 'index.blog.html';
   };
 
   const loginButton = document.getElementById('loginButton');
