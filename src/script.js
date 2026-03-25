@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
   const redirectToIndexBlog = function() {
     // Redireciona para a página correta após login/cadastro
-    window.location.href = 'index.blog.html';
+    // Usa caminho absoluto para funcionar no Vercel/GitHub Pages.
+    window.location.href = '/index.blog.html';
   };
 
   const loginButton = document.getElementById('loginButton');
