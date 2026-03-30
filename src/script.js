@@ -4,6 +4,7 @@ const usernameInput = document.getElementById("username");
 const passwordInput = document.getElementById("password");
 const loginButton = document.getElementById("loginButton");
 const registerButton = document.getElementById("registerButton");
+const saltRounds = 10;
 
 function getUsers() {
   const stored = localStorage.getItem("users");
@@ -48,7 +49,7 @@ function tryLogin() {
   const users = getUsers();
   const user = users.find(u => u.username.toLowerCase() === username.toLowerCase());
 
-  if (!user || user.password !== password) {
+  if (!user || !bcrypt.compareSync(password, user.passwordHash)) {
     alert("Usuário ou senha inválidos. Por favor, verifique e tente novamente.");
     return;
   }
@@ -72,7 +73,8 @@ function tryRegister() {
     return;
   }
 
-  users.push({ username, password });
+  const passwordHash = bcrypt.hashSync(password, saltRounds);
+  users.push({ username, passwordHash });
   saveUsers(users);
   setLoggedInUser(username);
   alert("Cadastro realizado com sucesso! Você já está logado.");

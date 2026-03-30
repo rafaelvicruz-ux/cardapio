@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sistema com Blog</title>
+  <title>Sistema com Blog - Canal de Vídeos</title>
   <style>
     * {
       margin: 0;
@@ -29,7 +29,7 @@
       text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
     }
 
-    input {
+    input, textarea, select {
       width: 250px;
       padding: 12px;
       border: none;
@@ -39,13 +39,18 @@
       transition: 0.3s;
     }
 
-    input:focus {
+    textarea {
+      width: 100%;
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    input:focus, textarea:focus, select:focus {
       box-shadow: 0 0 8px rgba(255,255,255,0.8);
     }
 
     button {
-      width: 250px;
-      padding: 12px;
+      padding: 12px 20px;
       border: none;
       border-radius: 8px;
       background: #fff;
@@ -60,6 +65,7 @@
       background: #4facfe;
       color: #fff;
       box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      transform: translateY(-2px);
     }
 
     #loginArea {
@@ -68,42 +74,247 @@
 
     .login-container {
       display: flex;
-      flex-direction: column; /* tudo embaixo */
+      flex-direction: column;
       gap: 12px;
       align-items: center;
     }
 
     #app {
       margin-top: 30px;
-      width: 80%;
-      max-width: 600px;
+      width: 90%;
+      max-width: 1200px;
       background: rgba(255,255,255,0.1);
       border-radius: 12px;
       padding: 20px;
       color: #fff;
     }
 
-    #blog {
-      margin-top: 40px;
-      width: 100%;
-      max-width: 700px;
+    /* Estilos do Blog com Bolinhas */
+    .blog-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .blog-header h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    .channels-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    .channel-card {
       background: rgba(255,255,255,0.15);
       border-radius: 12px;
       padding: 20px;
-      text-align: left;
-      display: none; /* começa escondido */
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      text-align: center;
     }
 
-    #blog h2 {
-      margin-bottom: 15px;
-      color: #fff;
+    .channel-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      background: rgba(255,255,255,0.25);
     }
 
-    article {
-      background: rgba(255,255,255,0.2);
-      padding: 15px;
+    .bola {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+      margin: 0 auto 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    .bola:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
+
+    .bola-inner {
+      color: white;
+      font-size: 14px;
+      font-weight: bold;
+      text-align: center;
+      padding: 10px;
+    }
+
+    .channel-name {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    .channel-description {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    /* Página do Canal (YouTube-like) */
+    .channel-page {
+      background: rgba(255,255,255,0.95);
+      color: #333;
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    .channel-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid #ddd;
+    }
+
+    .channel-bola-large {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .channel-info {
+      flex: 1;
+    }
+
+    .back-button {
+      background: #4facfe;
+      color: white;
       margin-bottom: 20px;
+    }
+
+    .back-button:hover {
+      background: #00f2fe;
+    }
+
+    /* Formulário de conteúdo */
+    .content-form {
+      background: #f5f5f5;
+      padding: 20px;
       border-radius: 8px;
+      margin-bottom: 30px;
+    }
+
+    .content-form h3 {
+      margin-bottom: 15px;
+      color: #4facfe;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      color: #666;
+      font-weight: bold;
+    }
+
+    .form-group input, .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    /* Grid de conteúdos */
+    .contents-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .content-item {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+
+    .content-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .media-container {
+      width: 100%;
+      max-height: 200px;
+      overflow: hidden;
+      background: #f0f0f0;
+    }
+
+    .media-container img, .media-container video {
+      width: 100%;
+      height: auto;
+      max-height: 200px;
+      object-fit: cover;
+    }
+
+    .content-text {
+      padding: 15px;
+    }
+
+    .content-text h4 {
+      color: #4facfe;
+      margin-bottom: 10px;
+    }
+
+    .content-text p {
+      color: #666;
+      line-height: 1.5;
+    }
+
+    .content-date {
+      font-size: 0.8rem;
+      color: #999;
+      margin-top: 10px;
+    }
+
+    .delete-btn {
+      background: #ff6b6b;
+      color: white;
+      padding: 5px 10px;
+      font-size: 0.8rem;
+      margin-top: 10px;
+    }
+
+    .delete-btn:hover {
+      background: #ff5252;
+    }
+
+    /* Responsividade */
+    @media (max-width: 768px) {
+      .channels-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .channel-header {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .contents-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -123,22 +334,340 @@
     <!-- Conteúdo principal do app -->
   </main>
 
-  <!-- Seção do Blog -->
-  <section id="blog">
-    <h2>Blog</h2>
-    <article>
-      <h3>Postagem 1</h3>
-      <p>Este é um exemplo de postagem no blog. Você pode escrever qualquer conteúdo aqui.</p>
-    </article>
+  <script src="https://cdn.jsdelivr.net/npm/bcryptjs@2.4.3/dist/bcrypt.min.js"></script>
+  <script>
+    // Simulação de banco de dados local
+    let users = JSON.parse(localStorage.getItem('users')) || [];
+    let currentUser = null;
+    let channels = JSON.parse(localStorage.getItem('channels')) || [];
+    let currentChannel = null;
 
-    <article>
-      <h3>Postagem 2</h3>
-      <p>Mais um exemplo de artigo. O blog pode ser usado para notícias, textos pessoais ou qualquer outro tema.</p>
-    </article>
-  </section>
+    // Inicializar com alguns canais de exemplo se não existirem
+    if (channels.length === 0) {
+      channels = [
+        {
+          id: 1,
+          name: "Tech News",
+          description: "As últimas novidades da tecnologia",
+          bolaColor: "#ff6b6b",
+          contents: []
+        },
+        {
+          id: 2,
+          name: "Gaming World",
+          description: "Gameplays e reviews de jogos",
+          bolaColor: "#4ecdc4",
+          contents: []
+        },
+        {
+          id: 3,
+          name: "Cooking Channel",
+          description: "Receitas deliciosas e dicas de culinária",
+          bolaColor: "#ffe66d",
+          contents: []
+        }
+      ];
+      localStorage.setItem('channels', JSON.stringify(channels));
+    }
 
-  <script src="script.js"></script>
+    // Funções de autenticação
+    function register(username, password) {
+      if (users.find(u => u.username === username)) {
+        alert('Usuário já existe!');
+        return false;
+      }
+      
+      const hashedPassword = bcrypt.hashSync(password, 10);
+      users.push({ username, password: hashedPassword });
+      localStorage.setItem('users', JSON.stringify(users));
+      alert('Cadastro realizado com sucesso!');
+      return true;
+    }
+
+    function login(username, password) {
+      const user = users.find(u => u.username === username);
+      if (user && bcrypt.compareSync(password, user.password)) {
+        currentUser = username;
+        alert(`Bem-vindo, ${username}!`);
+        showApp();
+        return true;
+      }
+      alert('Usuário ou senha inválidos!');
+      return false;
+    }
+
+    function logout() {
+      currentUser = null;
+      currentChannel = null;
+      document.getElementById('loginArea').style.display = 'block';
+      document.getElementById('app').innerHTML = '';
+    }
+
+    // Interface principal do app (Blog com bolinhas)
+    function showApp() {
+      document.getElementById('loginArea').style.display = 'none';
+      const appDiv = document.getElementById('app');
+      
+      if (!currentChannel) {
+        renderChannelsGrid(appDiv);
+      } else {
+        renderChannelPage(appDiv);
+      }
+    }
+
+    function renderChannelsGrid(container) {
+      container.innerHTML = `
+        <div class="blog-header">
+          <h2>📺 Seus Canais</h2>
+          <p>Clique na bolinha para acessar o canal</p>
+        </div>
+        <div class="channels-grid" id="channelsGrid"></div>
+      `;
+      
+      const grid = document.getElementById('channelsGrid');
+      channels.forEach(channel => {
+        const card = document.createElement('div');
+        card.className = 'channel-card';
+        card.onclick = () => openChannel(channel.id);
+        
+        card.innerHTML = `
+          <div class="bola" style="background: linear-gradient(135deg, ${channel.bolaColor}, ${channel.bolaColor}dd)">
+            <div class="bola-inner">
+              📺
+            </div>
+          </div>
+          <div class="channel-name">${channel.name}</div>
+          <div class="channel-description">${channel.description}</div>
+          <div class="channel-description" style="margin-top: 10px; font-size: 0.8rem;">
+            ${channel.contents ? channel.contents.length : 0} conteúdos
+          </div>
+        `;
+        
+        grid.appendChild(card);
+      });
+    }
+
+    function openChannel(channelId) {
+      currentChannel = channels.find(c => c.id === channelId);
+      if (currentChannel) {
+        showApp();
+      }
+    }
+
+    function renderChannelPage(container) {
+      if (!currentChannel) return;
+      
+      container.innerHTML = `
+        <div class="channel-page">
+          <button class="back-button" onclick="goBackToChannels()">← Voltar para todos os canais</button>
+          
+          <div class="channel-header">
+            <div class="channel-bola-large" style="background: linear-gradient(135deg, ${currentChannel.bolaColor}, ${currentChannel.bolaColor}dd)">
+              <div style="font-size: 30px;">📺</div>
+            </div>
+            <div class="channel-info">
+              <h2>${currentChannel.name}</h2>
+              <p>${currentChannel.description}</p>
+              <small>Criado por: ${currentUser}</small>
+            </div>
+          </div>
+          
+          <div class="content-form">
+            <h3>📝 Adicionar novo conteúdo</h3>
+            <form id="addContentForm">
+              <div class="form-group">
+                <label>Título:</label>
+                <input type="text" id="contentTitle" required placeholder="Digite o título">
+              </div>
+              <div class="form-group">
+                <label>Texto/Descrição:</label>
+                <textarea id="contentText" required placeholder="Digite sua mensagem..."></textarea>
+              </div>
+              <div class="form-group">
+                <label>Tipo de Mídia:</label>
+                <select id="mediaType">
+                  <option value="image">Imagem</option>
+                  <option value="video">Vídeo (até 60s)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>URL da Mídia:</label>
+                <input type="text" id="mediaUrl" placeholder="https://exemplo.com/imagem.jpg ou vídeo.mp4">
+                <small>Cole o link da imagem ou vídeo (máx 60s para vídeos)</small>
+              </div>
+              <button type="submit">Publicar conteúdo</button>
+            </form>
+          </div>
+          
+          <div class="contents-list">
+            <h3>📹 Conteúdos do Canal</h3>
+            <div id="contentsGrid" class="contents-grid"></div>
+          </div>
+        </div>
+      `;
+      
+      renderContents();
+      
+      // Adicionar evento do formulário
+      const form = document.getElementById('addContentForm');
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        addContent();
+      });
+    }
+    
+    function renderContents() {
+      const grid = document.getElementById('contentsGrid');
+      if (!grid) return;
+      
+      if (!currentChannel.contents || currentChannel.contents.length === 0) {
+        grid.innerHTML = '<p style="text-align: center; color: #666;">Nenhum conteúdo publicado ainda. Seja o primeiro!</p>';
+        return;
+      }
+      
+      grid.innerHTML = '';
+      currentChannel.contents.forEach((content, index) => {
+        const contentDiv = document.createElement('div');
+        contentDiv.className = 'content-item';
+        
+        let mediaHtml = '';
+        if (content.mediaUrl) {
+          if (content.mediaType === 'image') {
+            mediaHtml = `
+              <div class="media-container">
+                <img src="${content.mediaUrl}" alt="${content.title}" onerror="this.src='https://via.placeholder.com/300x200?text=Imagem+não+encontrada'">
+              </div>
+            `;
+          } else if (content.mediaType === 'video') {
+            mediaHtml = `
+              <div class="media-container">
+                <video controls preload="metadata">
+                  <source src="${content.mediaUrl}" type="video/mp4">
+                  Seu navegador não suporta vídeo.
+                </video>
+              </div>
+            `;
+          }
+        }
+        
+        contentDiv.innerHTML = `
+          ${mediaHtml}
+          <div class="content-text">
+            <h4>${content.title}</h4>
+            <p>${content.text}</p>
+            <div class="content-date">Publicado em: ${new Date(content.date).toLocaleString('pt-BR')}</div>
+            <button class="delete-btn" onclick="deleteContent(${index})">🗑️ Excluir</button>
+          </div>
+        `;
+        
+        grid.appendChild(contentDiv);
+      });
+    }
+    
+    function addContent() {
+      const title = document.getElementById('contentTitle').value;
+      const text = document.getElementById('contentText').value;
+      const mediaType = document.getElementById('mediaType').value;
+      let mediaUrl = document.getElementById('mediaUrl').value;
+      
+      if (!title || !text) {
+        alert('Por favor, preencha o título e o texto!');
+        return;
+      }
+      
+      // Validar vídeo (simulação de verificação de duração)
+      if (mediaType === 'video' && mediaUrl) {
+        // Nota: Em um ambiente real, você precisaria verificar a duração do vídeo no servidor
+        // Aqui estamos apenas simulando um aviso
+        alert('Nota: Certifique-se de que o vídeo tenha no máximo 60 segundos.');
+      }
+      
+      const newContent = {
+        id: Date.now(),
+        title: title,
+        text: text,
+        mediaType: mediaType,
+        mediaUrl: mediaUrl || null,
+        date: new Date().toISOString()
+      };
+      
+      if (!currentChannel.contents) {
+        currentChannel.contents = [];
+      }
+      
+      currentChannel.contents.unshift(newContent); // Adiciona no início
+      
+      // Salvar no localStorage
+      const channelIndex = channels.findIndex(c => c.id === currentChannel.id);
+      if (channelIndex !== -1) {
+        channels[channelIndex] = currentChannel;
+        localStorage.setItem('channels', JSON.stringify(channels));
+      }
+      
+      // Limpar formulário
+      document.getElementById('contentTitle').value = '';
+      document.getElementById('contentText').value = '';
+      document.getElementById('mediaUrl').value = '';
+      
+      // Recarregar conteúdos
+      renderContents();
+      alert('Conteúdo publicado com sucesso!');
+    }
+    
+    function deleteContent(index) {
+      if (confirm('Tem certeza que deseja excluir este conteúdo?')) {
+        currentChannel.contents.splice(index, 1);
+        
+        // Salvar no localStorage
+        const channelIndex = channels.findIndex(c => c.id === currentChannel.id);
+        if (channelIndex !== -1) {
+          channels[channelIndex] = currentChannel;
+          localStorage.setItem('channels', JSON.stringify(channels));
+        }
+        
+        renderContents();
+        alert('Conteúdo excluído com sucesso!');
+      }
+    }
+    
+    function goBackToChannels() {
+      currentChannel = null;
+      showApp();
+    }
+    
+    // Funções globais
+    window.goBackToChannels = goBackToChannels;
+    window.deleteContent = deleteContent;
+    
+    // Event listeners para login
+    document.getElementById('loginButton').addEventListener('click', () => {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      if (username && password) {
+        login(username, password);
+      } else {
+        alert('Preencha todos os campos!');
+      }
+    });
+    
+    document.getElementById('registerButton').addEventListener('click', () => {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      if (username && password) {
+        register(username, password);
+      } else {
+        alert('Preencha todos os campos!');
+      }
+    });
+    
+    // Verificar se já existe usuário logado (simples)
+    if (users.length === 0) {
+      // Criar usuário demo para facilitar testes
+      const demoPassword = bcrypt.hashSync('123456', 10);
+      users.push({ username: 'demo', password: demoPassword });
+      localStorage.setItem('users', JSON.stringify(users));
+    }
+  </script>
 </body>
 </html>
-
 

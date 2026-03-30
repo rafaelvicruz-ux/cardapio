@@ -1,4 +1,5 @@
 import { findUserByEmail } from './db.js';
+import bcrypt from 'bcryptjs';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -13,7 +14,7 @@ export default async function handler(req, res) {
   }
 
   const user = await findUserByEmail(email);
-  if (!user || user.password !== password) {
+  if (!user || !(await bcrypt.compare(password, user.password))) {
     res.status(401).json({ message: 'Credenciais inválidas' });
     return;
   }
