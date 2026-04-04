@@ -1,14 +1,17 @@
 import fs from 'fs';
+import os from 'os';
 import path from 'path';
 import { createClient } from '@supabase/supabase-js';
-
-const dbDir = path.join(process.cwd(), 'data');
-const dbFile = path.join(dbDir, 'db.json');
 
 const SUPABASE_URL = process.env.SUPABASE_URL || '';
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY || '';
 const useSupabase = Boolean(SUPABASE_URL && SUPABASE_KEY);
 const supabase = useSupabase ? createClient(SUPABASE_URL, SUPABASE_KEY) : null;
+
+const localDataDir = path.join(process.cwd(), 'data');
+const vercelTempDir = path.join(os.tmpdir(), 'cardapio-data');
+const dbDir = process.env.DB_DIR || (process.env.VERCEL ? vercelTempDir : localDataDir);
+const dbFile = path.join(dbDir, 'db.json');
 
 function initDB() {
   if (!fs.existsSync(dbDir)) {
