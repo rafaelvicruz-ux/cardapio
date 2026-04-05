@@ -1,0 +1,13 @@
+{
+  "users": [
+    {
+      "id": 1775425545833,
+      "name": "Rafael Vieira CRUZ",
+      "email": "rafaelvicruz@gmail.com",
+      "password": "$2b$10$SjWhlkzBsi3XVCWEqgZD6uzMNbQHGWjr4mh0YTxNftVDUahyKmkzu",
+      "token": "jl6vohknk9fmnmaj2p5"
+    }
+  ],
+  "groceries": [],
+  "mealplans": []
+}
