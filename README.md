@@ -1,4 +1,4 @@
-# Cardápio + Lista de Compras com Usuários
+# toq uma rede social 
 
 Sistema com autenticação, cadastro de usuários, listas de compras semana/mês e cardápios semana/mês.
 
